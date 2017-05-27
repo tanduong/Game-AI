@@ -45,8 +45,8 @@ class DQN:
 
         self.actions = tf.placeholder(tf.float32, [None, self.num_actions])
         self.q_target = tf.placeholder(tf.float32, [None])
-        self.q_train = tf.reduce_max(tf.mul(self.train_net.y, self.actions), reduction_indices=1)
-        self.diff = tf.sub(self.q_target, self.q_train)
+        self.q_train = tf.reduce_max(tf.multiply(self.train_net.y, self.actions), reduction_indices=1)
+        self.diff = tf.subtract(self.q_target, self.q_train)
 
         half = tf.constant(0.5)
         if params.clip_delta > 0:
@@ -54,9 +54,9 @@ class DQN:
             clipped_diff = tf.clip_by_value(abs_diff, 0, 1)
             linear_part = abs_diff - clipped_diff
             quadratic_part = tf.square(clipped_diff)
-            self.diff_square = tf.mul(half, tf.add(quadratic_part, linear_part))
+            self.diff_square = tf.multiply(half, tf.add(quadratic_part, linear_part))
         else:
-            self.diff_square = tf.mul(half, tf.square(self.diff))
+            self.diff_square = tf.multiply(half, tf.square(self.diff))
 
         if params.accumulator == 'sum':
             self.loss = tf.reduce_sum(self.diff_square)
@@ -91,7 +91,7 @@ class DQN:
             x = self.buffer.getInput()
             action_values = self.train_net.y.eval( feed_dict={ self.train_net.x: x } )
             a = np.argmax(action_values)
-        
+
         state = self.buffer.getState()
         action = np.zeros(self.num_actions)
         action[a] = 1.0
@@ -104,8 +104,8 @@ class DQN:
         reward = np.clip(reward, -1.0, 1.0)
 
         self.memory.add(state, action, reward, next_state, terminal)
-        
-        
+
+
         return state, action, reward, next_state, terminal
 
     def doMinibatch(self, sess, successes, failures):
@@ -145,7 +145,7 @@ class DQN:
 
     def save(self, saver, sess, step):
         saver.save(sess, self.ckpt_file, global_step=step)
-        
+
     def restore(self, saver):
         ckpt = tf.train.get_checkpoint_state(self.ckpt_file)
         if ckpt and ckpt.model_checkpoint_path:

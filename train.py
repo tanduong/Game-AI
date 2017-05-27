@@ -11,7 +11,7 @@ class Trainer:
 
     def run(self):
         with tf.Session() as sess:
-            sess.run(tf.initialize_all_variables())
+            sess.run(tf.global_variables_initializer())
             self.agent.randomRestart()
 
             successes = 0
@@ -32,7 +32,7 @@ class Trainer:
                     print "\nmemory size: %d" % len(self.agent.memory),\
                           "\nSuccesses: ", successes,\
                           "\nFailures: ", failures
-            
+
             sample_success = 0
             sample_failure = 0
             print "\nstart training..."
@@ -53,7 +53,7 @@ class Trainer:
                     successes += 1
                 elif terminal:
                     failures += 1
-                
+
                 if ((i+1) % self.agent.save_weights == 0):
                     self.agent.save(self.saver, sess, i+1)
 

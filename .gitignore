@@ -1,2 +1,9 @@
 *.pyc
 model/
+.Python
+LICENSE-3RD-PARTY.txt
+LICENSE.txt
+pip-selfcheck.json
+bin
+include
+lib

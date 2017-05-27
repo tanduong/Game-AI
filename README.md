@@ -17,3 +17,31 @@ It will run `SpaceInvaders-v0` by default but you can use other game names as we
 
 ## Credits
 Credit for the vast majority of code here goes to [Kee Hyun Won](https://github.com/kihyunwon). I've merely created a wrapper to get people started.
+
+# Set steps
+
+## Install cmake if you haven't
+
+```bash
+brew install cmake
+```
+
+## Initialize virtualenv project in the project folder (using python2)
+
+```bash
+virtualenv -p $(which python2) .
+
+source bin/activate
+```
+
+## Install requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+## Run
+
+```bash
+python atari.py --train_steps 1000 --display true
+```
